@@ -1,0 +1,5 @@
+[tool.black]
+line-length = 120
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules oura_cruncher/"

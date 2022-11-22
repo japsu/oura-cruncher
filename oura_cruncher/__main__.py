@@ -1,8 +1,13 @@
 from .night import Night
+from .sheets import put_nights_data
 
 
 def main():
-    for night in Night.get_nights():
+    nights = list(Night.get_nights_from_oura())
+    put_nights_data(nights)
+
+    nights = Night.get_nights_from_sheets()
+    for night in nights:
         print(night)
 
 

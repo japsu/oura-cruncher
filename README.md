@@ -4,14 +4,24 @@ Sleep better with the power of data.
 
 ## Getting started
 
-Place an Oura API Personal Access Token in a file called `.token`.
+Get a `credentials.json` from Google API management UI.
 
+    # create config and edit it to your liking
+    cp config.sample.toml config.toml
+    code config.toml
+
+    # create venv and install deps
     python -m venv venv
     source venv/bin/activate
     pip install -U pip setuptools wheel
     pip install -r requirements.txt
+
+    # run!
     python -m oura_cruncher
 
+On first run, it will ask you to authenticate to Google APIs.
+
+If successful, this will download all nights from Oura and place them in the Google Sheet.
 ## Features
 
 ### Oura API v2 integration
@@ -23,7 +33,7 @@ Place an Oura API Personal Access Token in a file called `.token`.
 
 Use Google Sheets as a makeshift UI to add labels and visualize data.
 
-* [ ] Update a Google Sheet with data extracted from Oura API
+* [X] Update a Google Sheet with data extracted from Oura API
 * [ ] Read labels from a Google Sheet
 
 ### Statistical tests

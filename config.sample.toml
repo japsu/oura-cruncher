@@ -1,0 +1,7 @@
+[oura]
+token = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+start_date = "2022-11-12"
+
+[sheets]
+sheet_id = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+range = "Nights!A:E"
