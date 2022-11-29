@@ -38,7 +38,7 @@ def get_existing_range(
     lookup_field: str = "day",
     # TODO un-hardcode perhaps?
     first_col: str = "A",
-    last_col: str = "C",
+    last_col: str = "F",
 ):
     """
     >>> shieet = [["day", "bar"], ["2022-07-11", "quux"]]
@@ -60,7 +60,11 @@ def get_existing_range(
         return f"{first_col}{row_1}:{last_col}{row_1}"
 
 
-def put_nights_data(nights: list["Night"], spreadsheet_id=config.sheets.sheet_id, range=config.sheets.range):
+def put_nights_data(
+    nights: list["Night"],
+    spreadsheet_id=config.sheets.sheet_id,
+    range=config.sheets.range,
+):
     creds = get_credentials()
     service = build("sheets", "v4", credentials=creds)
     sheet_values = service.spreadsheets().values()
@@ -115,4 +119,4 @@ def get_nights_data(spreadsheet_id=config.sheets.sheet_id, range=config.sheets.r
     existing_data = result["values"]
 
     header_row = existing_data[0]
-    return [zip(header_row, row) for row in existing_data[1:]]
+    return [dict(zip(header_row, row)) for row in existing_data[1:]]
