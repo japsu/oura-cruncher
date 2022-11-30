@@ -1,17 +1,17 @@
-from .night import Night
-from .sheets import put_nights_data, get_nights_data
+import click
+
+from .cli.run_experiments import run_experiments
+from .cli.update_data import update_data
 
 
-def main():
-    nights = list(Night.get_nights_from_oura())
-    nights_data_from_sheets = get_nights_data()
-    Night.update_nights_from_sheets(nights, nights_data_from_sheets)
+@click.group
+def cli():
+    pass
 
-    put_nights_data(nights)
 
-    for night in nights:
-        print(night)
+cli.add_command(run_experiments)
+cli.add_command(update_data)
 
 
 if __name__ == "__main__":
-    main()
+    cli()

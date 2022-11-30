@@ -1,6 +1,9 @@
-oura
-pydantic
+click
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
+numpy
+oura
+pydantic
 pytest
+scipy

@@ -7,21 +7,14 @@ from pydantic import BaseModel
 from oura.v2 import OuraClientV2
 from dateutil.parser import parse as parse_datetime
 
-from .config import config
-from .sheets import get_nights_data
+from ..config import config
+from ..services.sheets import get_nights_data
+from ..utils import time_to_seconds
 
 
 @cache
 def get_client():
     return OuraClientV2(personal_access_token=config.oura.token)
-
-
-def time_to_seconds(t, cutoff_hour: int = 8):
-    hour = t.hour
-    if hour < cutoff_hour:
-        hour += 24
-
-    return 60 * (60 * hour + t.minute)
 
 
 SHEETS_LOAD_FIELDS = ("reject_reason", "bedtime_start_correction")
@@ -66,6 +59,10 @@ class Night(BaseModel):
 
         return bedtime_end - bedtime_start
 
+    @property
+    def corrected_efficiency(self):
+        return self.total_sleep_duration / self.corrected_time_in_bed
+
     @classmethod
     def get_nights_from_oura(cls, start_date: str = config.oura.start_date, end_date: str | None = None):
         if not end_date:
@@ -81,6 +78,10 @@ class Night(BaseModel):
                 day_sleep_periods,
                 key=lambda sleep_period: sleep_period.total_sleep_duration,
             )
+
+    @classmethod
+    def get_nights_from_sheets(cls):
+        return [cls.parse_obj(obj) for obj in get_nights_data()]
 
     @classmethod
     def update_nights_from_sheets(cls, nights: list[Self], sheets_data: list[dict[str, str]]):

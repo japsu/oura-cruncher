@@ -7,10 +7,10 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
-from .config import config
+from ..config import config
 
 if TYPE_CHECKING:
-    from .night import Night
+    from ..models.night import Night
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
