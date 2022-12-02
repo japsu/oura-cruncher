@@ -9,11 +9,14 @@ from ..experiments.ttest import ttest
 
 
 def select_night(night: Night, bedtime_hour: int) -> bool:
+    if night.reject_reason:
+        return False
+
     bedtime_hour_seconds = hour_to_seconds(bedtime_hour)
     lower_bound_seconds = bedtime_hour_seconds - 15 * 60
     upper_bound_seconds = bedtime_hour_seconds + 15 * 60
-    bedtime = night.corrected_bedtime_start
-    return not night.reject_reason and lower_bound_seconds < time_to_seconds(bedtime) <= upper_bound_seconds
+    bedtime_seconds = time_to_seconds(night.corrected_bedtime_start)
+    return lower_bound_seconds < bedtime_seconds <= upper_bound_seconds
 
 
 @click.command
