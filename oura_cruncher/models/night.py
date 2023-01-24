@@ -1,20 +1,14 @@
-from functools import cache
 from datetime import date, datetime
 from itertools import groupby
 from typing import Optional, Self
 
 from pydantic import BaseModel
-from oura.v2 import OuraClientV2
 from dateutil.parser import parse as parse_datetime
 
 from ..config import config
 from ..services.sheets import get_nights_data
+from ..services.oura import get_client
 from ..utils import time_to_seconds
-
-
-@cache
-def get_client():
-    return OuraClientV2(personal_access_token=config.oura.token)
 
 
 SHEETS_LOAD_FIELDS = ("reject_reason", "bedtime_start_correction")
@@ -30,7 +24,10 @@ class Night(BaseModel):
 
     # sheets only fields
     reject_reason: Optional[str]
+    location: Optional[str]
+    medication: Optional[str]
     bedtime_start_correction: Optional[str]
+    late_sport: Optional[bool]
 
     @property
     def efficiency(self):
